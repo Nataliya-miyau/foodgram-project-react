@@ -1,4 +1,3 @@
-from django.contrib.auth import get_user_model
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
@@ -20,8 +19,6 @@ from api.serializers import (IngredientSerializer, RecipeAddSerializer,
 from recipes.models import (Favorite, Ingredient, IngredientRecipe, Recipe,
                             Shopping_cart, Tag)
 from users.models import Follow, User
-
-User = get_user_model()
 
 
 class TagViewSet(ModelViewSet):
@@ -45,11 +42,6 @@ class RecipeViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthorOrAdminOrReadOnly,)
     filter_backends = (DjangoFilterBackend,)
     filterset_class = RecipeFilter
-
-    # def get_serializer_class(self):
-        # if self.request.method == 'GET':
-            # return RecipeReadSerializer
-        # return RecipeAddSerializer
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
