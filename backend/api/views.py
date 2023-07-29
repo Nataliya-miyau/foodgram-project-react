@@ -12,8 +12,7 @@ from rest_framework.viewsets import ModelViewSet
 from api.filters import IngredientFilter, RecipeFilter
 from api.permissions import IsAdminOrReadOnly, IsAuthorOrAdminOrReadOnly
 from api.serializers import (IngredientSerializer, RecipeAddSerializer,
-                             RecipeReadSerializer,
-                             ShortRecipeInfoSerializer,
+                             RecipeReadSerializer, ShortRecipeInfoSerializer,
                              SubscriptionsUserSerializer, TagSerializer,
                              UserCreateSerializer, UserSerializer)
 from recipes.models import (Favorite, Ingredient, IngredientRecipe, Recipe,

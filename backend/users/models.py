@@ -1,6 +1,8 @@
-from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.validators import UnicodeUsernameValidator
+from django.db import models
+
+from foodgram.settings import MAX_EMAIL_LENGHT, MAX_LENGHT_1
 from users.validators import validate_name, validate_username
 
 
@@ -8,30 +10,30 @@ class User(AbstractUser):
 
     email = models.EmailField(
         verbose_name='Почта',
-        max_length=300,
+        max_length=MAX_EMAIL_LENGHT,
         unique=True,
     )
     username = models.CharField(
         verbose_name='Логин',
-        max_length=200,
+        max_length=MAX_LENGHT_1,
         unique=True,
         validators=(validate_username, UnicodeUsernameValidator, ),
     )
     first_name = models.CharField(
         verbose_name='Имя',
-        max_length=200,
+        max_length=MAX_LENGHT_1,
         blank=False,
         validators=(validate_name, ),
     )
     last_name = models.CharField(
         verbose_name='Фамилия',
-        max_length=200,
+        max_length=MAX_LENGHT_1,
         blank=False,
         validators=(validate_name, ),
     )
     password = models.CharField(
         verbose_name='Пароль',
-        max_length=200,
+        max_length=MAX_LENGHT_1,
     )
 
     class Meta:
@@ -62,7 +64,7 @@ class Follow(models.Model):
         auto_now_add=True)
 
     class Meta:
-        ordering = ['id', ]
+        ordering = ['created', ]
         verbose_name = 'Подписка'
         verbose_name_plural = 'Подписки'
         constraints = [

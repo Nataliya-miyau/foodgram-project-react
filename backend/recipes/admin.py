@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.contrib.admin import TabularInline
+from django.utils.safestring import mark_safe
 
 from recipes.models import (Favorite, Ingredient, IngredientRecipe, Recipe,
                             Shopping_cart, Tag)
@@ -31,27 +32,31 @@ class TagAdmin(admin.ModelAdmin):
 class RecipeAdmin(admin.ModelAdmin):
     list_display = ('id', 'author', 'name', 'get_ingredients',
                     'get_tags', 'favorite')
+    fields = ('name', 'author', 'tags', 'text', 'image',)
     search_fields = ('name', 'author', 'tags')
     list_filter = ('name', 'author', 'tags')
     inlines = (IngredientRecipeInline,)
     empty_value_display = '- пусто -'
 
+    @admin.display(description='Изображение')
+    def get_image(self, obj):
+        return mark_safe(f'<img src={obj.image.url} width="80" hieght="30"')
+
+    @admin.display(description='Избранное')
     def favorite(self, obj):
         return obj.favorite.count()
 
-    favorite.short_description = 'Избранное'
-
+    @admin.display(description='Ингредиенты')
     def get_ingredients(self, obj):
         ingredients_list = []
         for ingredient in obj.ingredients.all():
             ingredients_list.append(ingredient.name.lower())
         return ', '.join(ingredients_list)
 
-    get_ingredients.short_description = 'Ингрeдиенты'
-
+    @admin.display(description='Теги')
     def get_tags(self, obj):
-        list_ = [_.name for _ in obj.tags.all()]
-        return ', '.join(list_)
+        ls = [_.name for _ in obj.tags.all()]
+        return ', '.join(ls)
 
 
 @admin.register(Shopping_cart)
