@@ -64,7 +64,7 @@ class Follow(models.Model):
         auto_now_add=True)
 
     class Meta:
-        ordering = ['created', ]
+        ordering = ('created',)
         verbose_name = 'Подписка'
         verbose_name_plural = 'Подписки'
         constraints = [

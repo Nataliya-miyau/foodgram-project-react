@@ -111,7 +111,7 @@ class UserViewSet(UserViewSet):
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_serializer_class(self):
-        if self.request.method.lower() == 'post':
+        if self.request.method == 'POST':
             return UserCreateSerializer
         return UserSerializer
 

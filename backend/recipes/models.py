@@ -170,7 +170,7 @@ class IngredientRecipe(models.Model):
     )
 
     class Meta:
-        ordering = ['recipe']
+        ordering = ('recipe',)
         verbose_name = 'Количество ингредиента'
         verbose_name_plural = 'Количество ингредиентов рецепта'
         constraints = [
