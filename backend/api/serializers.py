@@ -325,7 +325,7 @@ class ShoppingСartSerializer(serializers.ModelSerializer):
     def validate(self, data):
         user = data['user']
         if ShoppingСart.objects.filter(user=user,
-                                        recipe=data['recipe']).exists():
+                                       recipe=data['recipe']).exists():
             raise serializers.ValidationError('Рецепт уже добавлен')
         return data
 
