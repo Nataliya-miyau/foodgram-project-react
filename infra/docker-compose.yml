@@ -11,7 +11,7 @@ services:
     restart: always
 
   backend:
-    image: natalya71/back_foodgram
+    image: natalya71/back_foodgram:v1.0
     restart: always
     container_name: foodgram_back
     volumes:
@@ -24,7 +24,7 @@ services:
       - db
   
   frontend:
-    image: natalya71/front_foodgram
+    image: natalya71/front_foodgram:v1.0
     container_name: foodgram_front
     volumes:
       - ../frontend/:/app/result_build/
