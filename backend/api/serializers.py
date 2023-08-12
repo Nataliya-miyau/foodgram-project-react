@@ -7,7 +7,7 @@ from rest_framework.fields import SerializerMethodField
 from rest_framework.generics import get_object_or_404
 
 from recipes.models import (Ingredient, IngredientRecipe, Recipe,
-                            Shopping_cart, Tag, TagRecipe)
+                            ShoppingСart, Tag, TagRecipe)
 from users.models import Follow
 
 User = get_user_model()
@@ -316,10 +316,10 @@ class SubscriptionsUserSerializer(UserSerializer):
             author=obj, user=self.context['request'].user).exists()
 
 
-class Shopping_cartSerializer(serializers.ModelSerializer):
+class ShoppingСartSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Shopping_cart
+        model = ShoppingСart
         fields = ('user', 'recipe',)
 
     def validate(self, data):
