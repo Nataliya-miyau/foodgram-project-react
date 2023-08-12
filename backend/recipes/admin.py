@@ -3,7 +3,7 @@ from django.contrib.admin import TabularInline
 from django.utils.safestring import mark_safe
 
 from recipes.models import (Favorite, Ingredient, IngredientRecipe, Recipe,
-                            Shopping_cart, Tag)
+                            ShoppingСart, Tag)
 
 
 @admin.register(Ingredient)
@@ -59,7 +59,7 @@ class RecipeAdmin(admin.ModelAdmin):
         return ', '.join(ls)
 
 
-@admin.register(Shopping_cart)
+@admin.register(ShoppingСart)
 class ShoppingAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'recipe',)
     search_fields = ('user', 'recipe', )
