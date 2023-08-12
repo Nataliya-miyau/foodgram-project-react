@@ -218,7 +218,7 @@ class Favorite(FavoriteShoppingCartModel):
         ]
 
 
-class Shopping_cart(FavoriteShoppingCartModel):
+class ShoppingСart(FavoriteShoppingCartModel):
 
     class Meta:
         verbose_name = 'Список покупок'
