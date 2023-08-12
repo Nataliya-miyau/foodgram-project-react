@@ -15,7 +15,7 @@ from api.serializers import (IngredientSerializer, RecipeAddSerializer,
                              SubscriptionsUserSerializer, TagSerializer,
                              UserCreateSerializer, UserSerializer)
 from recipes.models import (Favorite, Ingredient, IngredientRecipe, Recipe,
-                            Shopping_cart, Tag)
+                            ShoppingСart, Tag)
 from users.models import Follow, User
 
 
@@ -82,9 +82,9 @@ class RecipeViewSet(viewsets.ModelViewSet):
     )
     def shopping_cart(self, request, pk):
         if request.method == 'POST':
-            return self.create(Shopping_cart, request.user, pk)
+            return self.create(ShoppingСart, request.user, pk)
 
-        return self.destroy(Shopping_cart, request.user, pk)
+        return self.destroy(ShoppingСart, request.user, pk)
 
     @action(
         detail=False, methods=['get'], permission_classes=[IsAuthenticated])
