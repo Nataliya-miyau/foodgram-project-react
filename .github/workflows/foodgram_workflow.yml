@@ -94,4 +94,4 @@ jobs:
         with:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
-          massage: ${{ github.workflow }} успешно выполнен!
+          message: ${{ github.workflow }} успешно выполнен!
