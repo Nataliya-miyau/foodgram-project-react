@@ -1,7 +1,9 @@
 name: foodgram-project-react workflow
 
-on: [push]
-
+on:
+  push:
+    paths-ignore:
+      - '**/README.md'
 jobs:
   tests:
     runs-on: ubuntu-latest
