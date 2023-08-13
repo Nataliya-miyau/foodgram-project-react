@@ -61,8 +61,7 @@ jobs:
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
-          key: ${{ secrets.SSH_KEY }} 
-          passphrase: ${{ secrets.PASSPHRASE }}
+          key: ${{ secrets.SSH_KEY }}          
           script: | 
             cd foodgram-project-react/infra
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/back_foodgram:v1.0
