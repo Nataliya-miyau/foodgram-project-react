@@ -64,14 +64,9 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_KEY }}            
           script: | 
-            cd ~
-            cd ~/foodgram-project-react/infra
-            sudo docker-compose down 
+            cd ~/foodram-infra
 
-            cd ~
-            sudo rm -rf ~/foodgram-project-react/
-            git clone git@github.com:Nataliya-miyau/foodgram-project-react.git
-            cd ~/foodgram-project-react/infra
+            sudo docker-compose down 
 
             rm .env
             touch .env 
