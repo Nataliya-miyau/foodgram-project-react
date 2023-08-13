@@ -64,7 +64,7 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_KEY }}            
           script: | 
-            cd ~/foodram-infra
+            cd ~/foodgram-infra
 
             sudo docker-compose down 
 
