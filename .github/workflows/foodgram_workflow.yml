@@ -63,14 +63,13 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_KEY }}            
           script: | 
+            cd ~
+            rm -rf ~/foodgram-project-react/
+            git clone git@github.com:Nataliya-miyau/foodgram-project-react.git
             cd foodgram-project-react/infra
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/back_foodgram:v1.0
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/front_foodgram:v1.0
-            sudo docker-compose stop 
-            sudo docker-compose rm backend
-            sudo docker-compose rm frontend
-            sudo rm .env
-            sudo touch .env 
+
+            rm .env
+            touch .env 
             echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env 
             echo DB_NAME=${{ secrets.DB_NAME }} >> .env 
             echo POSTGRES_USER=${{ secrets.POSTGRES_USER }} >> .env 
@@ -79,7 +78,9 @@ jobs:
             echo DB_PORT=${{ secrets.DB_PORT }} >> .env 
             echo SECRET_KEY="${{ secrets.SECRET_KEY }}" >> .env 
             echo DEBUG=False >> .env
-            sudo docker-compose up -d
+
+            sudo docker-compose down 
+            sudo docker-compose up -d --force-recreate
   send_message_telegram:
     name: Send message to Telegram
     runs-on: ubuntu-latest
