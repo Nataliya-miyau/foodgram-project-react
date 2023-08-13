@@ -1,3 +1,5 @@
+[![foodgram-project-react workflow](https://github.com/Nataliya-miyau/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)](https://github.com/Nataliya-miyau/foodgram-project-react/actions/workflows/foodgram_workflow.yml)
+
 # «Продуктовый помощник» Foodgram
 
 ## Описание проекта
