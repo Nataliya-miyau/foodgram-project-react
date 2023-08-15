@@ -137,19 +137,3 @@ DJOSER = {
 MAX_EMAIL_LENGHT = 254
 MAX_LENGHT_1 = 150
 MAX_LENGHT_2 = 200
-LOGGING = {
-    'version': 1,
-    'handlers': {
-        'console':{
-            'level':'DEBUG',
-            'class':'logging.StreamHandler',
-        },
-    },
-    'loggers': {
-        'django.request': {
-            'handlers':['console'],
-            'propagate': True,
-            'level':'DEBUG',
-        }
-    },
-}
