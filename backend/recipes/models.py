@@ -3,7 +3,6 @@ from django.contrib.auth import get_user_model
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models import UniqueConstraint
-
 from foodgram.settings import MAX_LENGHT_2
 from users.validators import validate_name
 
