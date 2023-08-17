@@ -1,12 +1,14 @@
 from django.contrib.auth import get_user_model
-from django_filters.rest_framework import CharFilter, FilterSet, filters
+from django_filters import rest_framework as filters
+from django_filters.rest_framework import FilterSet, filters
+
 from recipes.models import Ingredient, Recipe, Tag
 
 User = get_user_model()
 
 
 class IngredientFilter(FilterSet):
-    name = CharFilter(
+    name = filters.CharFilter(
         field_name='name',
         lookup_expr='istartswith'
     )
@@ -35,6 +37,11 @@ class RecipeFilter(FilterSet):
         fields = ('author', 'tags', 'is_favorited', 'is_in_shopping_cart')
 
     def filter_is_in_shopping_cart(self, queryset, name, value):
-        if value:
+        if value and self.request.user.is_authenticated:
             return queryset.filter(shopping_cart__user=self.request.user)
+        return queryset
+
+    def filter_is_favorited(self, queryset, name, value):
+        if value and self.request.user.is_authenticated:
+            return queryset.filter(favorite__user=self.request.user)
         return queryset

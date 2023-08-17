@@ -1,3 +1,16 @@
+from django.contrib.auth import get_user_model
+from django.db.models import F, Sum
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
+from django.utils import timezone
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import generics, status, views, viewsets
+from rest_framework.decorators import action
+from rest_framework.permissions import (SAFE_METHODS, IsAuthenticated,
+                                        IsAuthenticatedOrReadOnly)
+from rest_framework.response import Response
+from rest_framework.viewsets import ModelViewSet
+
 from api.filters import IngredientFilter, RecipeFilter
 from api.pagination import CustomPagination
 from api.permissions import IsAdminOrReadOnly, IsAuthorOrAdminOrReadOnly
@@ -5,20 +18,8 @@ from api.serializers import (IngredientSerializer, RecipeAddSerializer,
                              RecipeReadSerializer, ShortRecipeInfoSerializer,
                              SubscriptionsUserSerializer, TagSerializer,
                              UserCreateSerializer, UserSerializer)
-from django.contrib.auth import get_user_model
-from django.db.models import F, Sum
-from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
-from django.utils import timezone
-from django_filters.rest_framework import DjangoFilterBackend
 from recipes.models import (Favorite, Ingredient, IngredientRecipe, Recipe,
                             ShoppingСart, Tag)
-from rest_framework import generics, status, views, viewsets
-from rest_framework.decorators import action
-from rest_framework.permissions import (SAFE_METHODS, IsAuthenticated,
-                                        IsAuthenticatedOrReadOnly)
-from rest_framework.response import Response
-from rest_framework.viewsets import ModelViewSet
 from users.models import Follow, User
 
 User = get_user_model()

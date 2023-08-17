@@ -2,11 +2,13 @@ from django.contrib.auth import get_user_model
 from django.db.models import F
 from djoser.serializers import UserCreateSerializer, UserSerializer
 from drf_extra_fields.fields import Base64ImageField
-from recipes.models import (Ingredient, IngredientRecipe, Recipe, ShoppingСart,
-                            Tag, TagRecipe)
 from rest_framework import serializers
 from rest_framework.fields import SerializerMethodField
 from rest_framework.generics import get_object_or_404
+from rest_framework.settings import api_settings
+
+from recipes.models import (Ingredient, IngredientRecipe, Recipe, ShoppingСart,
+                            Tag, TagRecipe)
 from users.models import Follow
 
 User = get_user_model()
@@ -58,7 +60,7 @@ class ShortRecipeInfoSerializer(serializers.ModelSerializer):
 
 class ShowFavoriteSerializer(serializers.ModelSerializer):
 
-    recipes = serializers.SerializerMethodField(read_only=True)
+    recipes = serializers.SerializerMethodField()
     is_subscribed = SerializerMethodField(read_only=True)
     recipes_count = serializers.IntegerField(read_only=True)
 
@@ -297,8 +299,8 @@ class RecipeAddSerializer(serializers.ModelSerializer):
 class SubscriptionsUserSerializer(UserSerializer):
 
     recipes = ShortRecipeInfoSerializer(many=True, read_only=True)
-    recipes_count = SerializerMethodField(read_only=True)
-    is_subscribed = serializers.SerializerMethodField(read_only=True)
+    recipes_count = SerializerMethodField()
+    is_subscribed = serializers.SerializerMethodField()
 
     class Meta:
         model = User
@@ -312,15 +314,19 @@ class SubscriptionsUserSerializer(UserSerializer):
             'recipes',
             'recipes_count',
         )
+        read_only_fields = ('email', 'username', 'first_name', 'last_name')
 
-    def get_recipes_count(self, author):
-        return author.recipes.count()
+    def get_recipes_count(self, obj):
+        return obj.recipes.count()
 
-    def get_recipes(self, author):
-        request = self.context.get('request')
-        recipes = author.recipes.all()
-        return ShortRecipeInfoSerializer(recipes, many=True,
-                                         context={'request': request}).data
+    def get_recipes(self, obj):
+        recipes_limit = int(self.context['request'].GET.get(
+            'recipes_limit', api_settings.PAGE_SIZE))
+
+        user = get_object_or_404(User, pk=obj.pk)
+        recipes = Recipe.objects.filter(author=user)[:recipes_limit]
+
+        return ShortRecipeInfoSerializer(recipes, many=True).data
 
     def get_is_subscribed(self, obj):
         if not self.context['request'].user.is_authenticated:
@@ -328,6 +334,11 @@ class SubscriptionsUserSerializer(UserSerializer):
 
         return Follow.objects.filter(
             author=obj, user=self.context['request'].user).exists()
+
+    class Meta:
+        fields = ('id', 'email', 'username', 'first_name', 'last_name',
+                  'is_subscribed', 'recipes_count', 'recipes')
+        model = User
 
 
 class ShoppingСartSerializer(serializers.ModelSerializer):

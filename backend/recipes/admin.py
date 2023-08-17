@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib.admin import TabularInline
 from django.utils.safestring import mark_safe
+
 from recipes.models import (Favorite, Ingredient, IngredientRecipe, Recipe,
                             ShoppingСart, Tag)
 
