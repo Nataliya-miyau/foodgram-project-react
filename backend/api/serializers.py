@@ -172,6 +172,18 @@ class RecipeReadSerializer(serializers.ModelSerializer):
         return obj.shopping_cart.filter(user=user).exists()
 
 
+class RecipeIngredientAddSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(source='ingredient.id', read_only=False)
+    amount = serializers.IntegerField()
+
+    class Meta:
+        model = IngredientRecipe
+        fields = (
+            'id',
+            'amount',
+        )
+
+
 class RecipeAddSerializer(serializers.ModelSerializer):
 
     tags = serializers.PrimaryKeyRelatedField(
@@ -179,7 +191,7 @@ class RecipeAddSerializer(serializers.ModelSerializer):
         queryset=Tag.objects.all()
     )
     author = UserSerializer(read_only=True)
-    ingredients = RecipeIngredientSerializer(many=True, )
+    ingredients = RecipeIngredientAddSerializer(many=True, )
     is_favorited = SerializerMethodField()
     is_in_shopping_cart = SerializerMethodField()
     image = Base64ImageField(max_length=None)
@@ -213,11 +225,12 @@ class RecipeAddSerializer(serializers.ModelSerializer):
         if not ingredients:
             raise serializers.ValidationError('Ингредиентов нет')
         for ingredient in ingredients:
-            if ingredient['id'] in ingredients_list:
+            ingredient_id = ingredient["ingredient"]["id"]
+            if ingredient_id in ingredients_list:
                 raise serializers.ValidationError(
                     'Ингредиенты должны быть уникальными'
                 )
-            ingredients_list.append(ingredient['id'])
+            ingredients_list.append(ingredient_id)
 
         return ingredients
 
@@ -231,9 +244,11 @@ class RecipeAddSerializer(serializers.ModelSerializer):
     def create_ingredients(recipe, ingredients):
         ingredient_list = []
         for ingredient_data in ingredients:
+            ingredient_id = ingredient_data["ingredient"]["id"]
+            ingredient = Ingredient.objects.get(pk=ingredient_id)
             ingredient_list.append(
                 IngredientRecipe(
-                    ingredient=ingredient_data.pop('id'),
+                    ingredient=ingredient,
                     amount=ingredient_data.pop('amount'),
                     recipe=recipe,
                 )
