@@ -4,7 +4,8 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import generics, status, views, viewsets
+from djoser.views import UserViewSet
+from rest_framework import status, views, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import (SAFE_METHODS, IsAuthenticated,
                                         IsAuthenticatedOrReadOnly)
@@ -142,7 +143,7 @@ class DownloadShoppingCartView(views.APIView):
         return response
 
 
-class UserViewSet(generics.ListCreateAPIView):
+class UserViewSet(UserViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
     permission_classes = (IsAuthenticatedOrReadOnly,)

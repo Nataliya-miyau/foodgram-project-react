@@ -8,6 +8,7 @@ from api.views import (DownloadShoppingCartView, IngredientViewSet,
 app_name = 'api'
 
 router = DefaultRouter()
+router.register('users', UserViewSet, 'users')
 router.register('tags', TagViewSet, 'tags')
 router.register('recipes', RecipeViewSet, 'recipes')
 router.register('recipes', RecipeShoppingCartViewSet, 'recipes')
@@ -19,7 +20,7 @@ urlpatterns = [
         DownloadShoppingCartView.as_view(),
         name='download_shopping_cart',
     ),
-    path('', UserViewSet.as_view()),
+    # path('', UserViewSet.as_view()),
     path('', include(router.urls)),
     path('', include('djoser.urls')),
     path('auth/', include('djoser.urls.authtoken')),
