@@ -2,49 +2,58 @@ version: '3.8'
 services:
 
   db:
-    image: postgres:13.0-alpine
     container_name: foodgram_db
+    image: postgres:13.0-alpine
+    # ports: ["5432:5432"]
     volumes:
       - postgres_data:/var/lib/postgresql/data/
-    env_file:
-      - ./.env
+    env_file: ["./.env"]
     restart: always
 
   backend:
-    image: natalya71/back_foodgram:v1.0
-    restart: always
     container_name: foodgram_back
     volumes:
       - static_value:/app/static/
       - media_value:/app/media/
       - redoc:/app/api/docs/
-    env_file:
-      - ./.env
+    # ports: ["8000:8000"]
+    env_file: ["./.env"]
     depends_on:
       - db
-  
+    restart: always
+    profiles:
+      - donotstart
+    image: natalya71/back_foodgram:v1.0
+    # build:
+      # context: ../backend
+      # dockerfile: Dockerfile
+
   frontend:
-    image: natalya71/front_foodgram:v1.0
     container_name: foodgram_front
     volumes:
       - ../frontend/:/app/result_build/
+    image: natalya71/front_foodgram:v1.0
+    # build:
+      # context: ../frontend
+      # dockerfile: Dockerfile
 
   nginx:
-    image: nginx:1.21.3-alpine
     container_name: foodgram_nginx
-    ports:
-      - "80:80"
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
       - ../frontend/build:/usr/share/nginx/html/
       - static_value:/var/html/static/
       - media_value:/var/html/media/
       - redoc:/usr/share/nginx/html/api/docs/
+    env_file: ["./.env"]
+    extra_hosts: ["host.docker.internal:host-gateway"]
+    ports: ["80:80"]
     restart: always
     depends_on:
       - backend
       - frontend
-      
+    image: nginx:1.21.3-alpine
+
 
 volumes:
   static_value:
