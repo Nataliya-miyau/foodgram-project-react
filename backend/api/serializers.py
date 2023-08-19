@@ -69,7 +69,6 @@ class UserCreateSerializer(BaseUserCreateSerializer):
         return value
 
     def validate_password(self, value):
-        value = super().validate_password(value)
         if len(value) > 150:
             raise ValidationError(
                 "Пароль должен быть короче 150 символов."
