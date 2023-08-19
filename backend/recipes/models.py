@@ -5,18 +5,17 @@ from django.db import models
 from django.db.models import UniqueConstraint
 
 from foodgram.settings import MAX_LENGHT_2
-from users.validators import validate_name
+from recipes.validators import validate_name
 
 User = get_user_model()
 
 
 class Tag(models.Model):
-
     name = models.CharField(
         verbose_name='Название тега',
         max_length=MAX_LENGHT_2,
         unique=True,
-        validators=(validate_name, )
+        validators=(validate_name,)
     )
     color = ColorField(
         verbose_name='Цвет',
@@ -40,7 +39,6 @@ class Tag(models.Model):
 
 
 class Ingredient(models.Model):
-
     name = models.CharField(
         verbose_name='Наименование ингредиента',
         max_length=MAX_LENGHT_2,
@@ -67,7 +65,6 @@ class Ingredient(models.Model):
 
 
 class Recipe(models.Model):
-
     author = models.ForeignKey(
         User,
         verbose_name='Автор рецепта',
@@ -88,6 +85,7 @@ class Recipe(models.Model):
     )
     tags = models.ManyToManyField(
         Tag,
+        through='TagRecipe',
         verbose_name='Тег',
         related_name='recipes',
     )
@@ -151,11 +149,13 @@ class IngredientRecipe(models.Model):
 
     ingredient = models.ForeignKey(
         Ingredient,
+        related_name='ingredientrecipes',
         on_delete=models.CASCADE,
         verbose_name='Ингредиент'
     )
     recipe = models.ForeignKey(
         Recipe,
+        related_name='ingredientrecipes',
         on_delete=models.CASCADE,
         verbose_name='Рецепт'
     )

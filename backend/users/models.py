@@ -17,7 +17,7 @@ class User(AbstractUser):
         verbose_name='Логин',
         max_length=MAX_LENGHT_1,
         unique=True,
-        validators=(validate_username, UnicodeUsernameValidator, ),
+        validators=(validate_username, UnicodeUsernameValidator,),
     )
     first_name = models.CharField(
         verbose_name='Имя',
@@ -61,7 +61,8 @@ class Follow(models.Model):
     )
     created = models.DateTimeField(
         verbose_name='Дата подписки',
-        auto_now_add=True)
+        auto_now_add=True
+    )
 
     class Meta:
         ordering = ('created',)
