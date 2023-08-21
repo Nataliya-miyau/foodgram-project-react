@@ -6,6 +6,7 @@ from django.db.models import UniqueConstraint
 
 from foodgram.settings import MAX_LENGHT_2
 from recipes.validators import validate_name
+from users.validators import validate_name
 
 User = get_user_model()
 
