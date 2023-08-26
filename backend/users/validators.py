@@ -14,5 +14,5 @@ def validate_username(value):
 
 
 def validate_name(value):
-    if not re.match(r'^[a-zA-Zа-яА-ЯёЁ\s]*$', value):
+    if not re.match(r'^[a-zA-Z_.]*$', value):
         raise ValidationError('Имя может содержать только буквы')
