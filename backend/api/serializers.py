@@ -211,11 +211,11 @@ class RecipeWriteSerializer(ModelSerializer):
             "id", "ingredients", "tags",
             "image", "name", "text", "cooking_time",
         )
-      
+
     def validate_name(self, value):
         validate_name(value)
         return value
-        
+
     def validate_ingredients(self, value):
         if not value:
             raise ValidationError("Должен быть хотя бы один ингредиент.")
