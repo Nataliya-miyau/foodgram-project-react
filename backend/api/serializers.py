@@ -211,6 +211,7 @@ class RecipeWriteSerializer(ModelSerializer):
             "id", "ingredients", "tags",
             "image", "name", "text", "cooking_time",
         )
+      
     def validate_name(self, value):
         validate_name(value)
         return value
